@@ -29,7 +29,7 @@ public class AppConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new AuditInterceptor());
-//        registry.addInterceptor(authInterceptor);
+        registry.addInterceptor(authInterceptor);
     }
 
     /**

@@ -1,5 +1,6 @@
 package com.avensys.rts.formservice.payloadrequest;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -13,7 +14,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class FormSubmissionsRequestDTO {
     private Integer formId;
-    private String submissionData;
+    private Integer userId;
+    private JsonNode submissionData;
     private Integer entityId;
     private String entityType;
 }

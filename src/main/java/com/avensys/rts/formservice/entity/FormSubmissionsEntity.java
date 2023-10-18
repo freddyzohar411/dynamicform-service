@@ -7,6 +7,9 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -24,12 +27,13 @@ public class FormSubmissionsEntity {
     @Column(name = "form_id")
     private Integer formId;
 
-    @Column(name="submission_data", columnDefinition = "TEXT")
-    private String submissionData;
+    // Old Code
+//    @Column(name="submission_data", columnDefinition = "TEXT")
+//    private String submissionData;
 
-//    @Column(name="submission_data", columnDefinition = "jsonb")
-//    @Convert(converter = JsonbConverter.class)
-//    private Object submissionData;
+    @JdbcTypeCode(SqlTypes.JSON)
+    @Column(name="submission_data", columnDefinition = "jsonb")
+    private JsonNode submissionData;
 
     @Column(name="entity_id")
     private Integer entityId;
