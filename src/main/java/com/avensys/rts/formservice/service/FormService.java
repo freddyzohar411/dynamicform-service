@@ -3,6 +3,7 @@ package com.avensys.rts.formservice.service;
 import com.avensys.rts.formservice.entity.FormsEntity;
 import com.avensys.rts.formservice.payloadrequest.FormRequestDTO;
 import com.avensys.rts.formservice.payloadresponse.FormListResponse;
+import com.avensys.rts.formservice.payloadresponse.FormListingResponseDTO;
 import com.avensys.rts.formservice.payloadresponse.FormResponseDTO;
 
 import java.util.List;
@@ -36,5 +37,9 @@ public interface FormService {
     List<FormListResponse> getBaseForms();
 
     FormResponseDTO getFormByName(String formName);
+
+    FormListingResponseDTO getFormListingPage(Integer page, Integer size, String sortBy, String sortDirection);
+
+    FormListingResponseDTO getFormListingPageWithSearch(Integer page, Integer pageSize, String sortBy, String sortDirection, String searchTerm);
 
 }
