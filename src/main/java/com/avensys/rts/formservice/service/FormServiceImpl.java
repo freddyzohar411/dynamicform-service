@@ -8,17 +8,26 @@ import com.avensys.rts.formservice.payload.FormFieldDTO;
 import com.avensys.rts.formservice.payloadrequest.FormRequestDTO;
 import com.avensys.rts.formservice.payload.FormSchemaDTO;
 import com.avensys.rts.formservice.payloadresponse.FormListResponse;
+import com.avensys.rts.formservice.payloadresponse.FormListingResponseDTO;
 import com.avensys.rts.formservice.payloadresponse.FormResponseDTO;
 import com.avensys.rts.formservice.repository.FormFieldsRepository;
 import com.avensys.rts.formservice.repository.FormsRepository;
 import com.avensys.rts.formservice.repository.SectionsRepository;
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.persistence.criteria.Join;
+import jakarta.persistence.criteria.JoinType;
+import jakarta.persistence.criteria.Path;
+import jakarta.persistence.criteria.Predicate;
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -163,8 +172,8 @@ public class FormServiceImpl implements FormService {
                     } else {
                         formListResponse.setBaseFormName("");
                     }
-                    formListResponse.setModifiedBy("Avensys");
-                    formListResponse.setModifiedAt(formsEntity.getUpdatedAt());
+                    formListResponse.setUpdatedBy("Avensys");
+                    formListResponse.setUpdatedAt(formsEntity.getUpdatedAt());
                     return formListResponse;
                 }
         ).toList(
@@ -348,6 +357,122 @@ public class FormServiceImpl implements FormService {
         FormsEntity formFound = formsRepository.findByFormName(formName).orElseThrow(() ->
                 new EntityNotFoundException("Form with name " + formName + " not found"));
         return formsEntityToFormResponseDTO(formFound);
+    }
+
+    @Override
+    public FormListingResponseDTO getFormListingPage(Integer page, Integer size, String sortBy, String sortDirection) {
+        System.out.println("Sorting");
+        Sort sort = null;
+        System.out.println("Sort By: " + sortBy);
+        if (sortBy != null) {
+            // Get direction based on sort direction
+            Sort.Direction direction = Sort.DEFAULT_DIRECTION;
+            if (sortDirection != null) {
+                direction = sortDirection.equals("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
+            }
+            sort = Sort.by(direction, sortBy);
+        } else {
+            sort = Sort.by(Sort.Direction.DESC, "updatedAt");
+        }
+        System.out.println("Test 3");
+        Pageable pageable = null;
+        if (page == null && size == null) {
+            pageable = PageRequest.of(0, Integer.MAX_VALUE, sort);
+        } else {
+            pageable = PageRequest.of(page, size, sort);
+        }
+        Page<FormsEntity> accountsPage = formsRepository.findAllByPaginationAndSort(pageable);
+
+        return formPageToFormListingDTO(accountsPage);
+    }
+
+
+
+    @Override
+    public FormListingResponseDTO getFormListingPageWithSearch(Integer page, Integer size, String sortBy, String sortDirection, String searchTerm) {
+        System.out.println("Sorting With Search");
+        Sort sort = null;
+        if (sortBy != null) {
+            // Get direction based on sort direction
+            Sort.Direction direction = Sort.DEFAULT_DIRECTION;
+            if (sortDirection != null) {
+                direction = sortDirection.equals("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
+            }
+            sort = Sort.by(direction, sortBy);
+        } else {
+            sort = Sort.by(Sort.Direction.DESC, "updatedAt");
+        }
+
+        Pageable pageable = null;
+        if (page == null && size == null) {
+            pageable = PageRequest.of(0, Integer.MAX_VALUE, sort);
+        } else {
+            pageable = PageRequest.of(page, size, sort);
+        }
+
+        // Dynamic search based on custom view (future feature)
+        List<String> customView = List.of("id", "formName", "entityType", "baseFormName", "updatedAt","formType");
+        Specification<FormsEntity> specification = (root, query, criteriaBuilder) -> {
+
+            List<Predicate> predicates = new ArrayList<>();
+
+            // Custom fields you want to search in
+            for (String field : customView) {
+                if ("baseFormName".equals(field)) {
+                    Join<FormsEntity, FormsEntity> baseJoin = root.join("baseForm", JoinType.LEFT);
+                    predicates.add(criteriaBuilder.like(criteriaBuilder.lower(baseJoin.get("formName")), "%" + searchTerm.toLowerCase() + "%"));
+                } else {
+                    Path<Object> fieldPath = root.get(field);
+
+                    if (fieldPath.getJavaType() == Integer.class) {
+                        try {
+                            Integer id = Integer.parseInt(searchTerm);
+                            predicates.add(criteriaBuilder.equal(fieldPath, id));
+                        } catch (NumberFormatException e) {
+                            // Ignore if it's not a valid integer
+                        }
+                    } else {
+                        predicates.add(criteriaBuilder.like(criteriaBuilder.lower(fieldPath.as(String.class)), "%" + searchTerm.toLowerCase() + "%"));
+                    }
+                }
+            }
+            Predicate searchOrPredicates = criteriaBuilder.or(predicates.toArray(new Predicate[0]));
+
+            return criteriaBuilder.and(searchOrPredicates);
+        };
+
+        Page<FormsEntity> formsPage = formsRepository.findAll(specification, pageable);
+
+        return formPageToFormListingDTO(formsPage);
+    }
+
+    private FormListingResponseDTO formPageToFormListingDTO(Page<FormsEntity> formEntitiesPage) {
+        FormListingResponseDTO formListingResponseDTO = new FormListingResponseDTO();
+        formListingResponseDTO.setTotalPages(formEntitiesPage.getTotalPages());
+        formListingResponseDTO.setTotalElements(formEntitiesPage.getTotalElements());
+        formListingResponseDTO.setPage(formEntitiesPage.getNumber());
+        formListingResponseDTO.setPageSize(formEntitiesPage.getSize());
+
+        List<FormListResponse> formListResponseList = formEntitiesPage.getContent().stream().map(
+                formsEntity -> {
+                    FormListResponse formListResponse = new FormListResponse();
+                    formListResponse.setFormId(formsEntity.getId());
+                    formListResponse.setFormName(formsEntity.getFormName());
+                    formListResponse.setFormType(formsEntity.getFormType());
+                    formListResponse.setEntityType(formsEntity.getEntityType());
+                    formListResponse.setStepperNumber(formsEntity.getStepperNumber());
+                    if (formsEntity.getBaseForm() != null) {
+                        formListResponse.setBaseFormName(formsEntity.getBaseForm().getFormName());
+                    } else {
+                        formListResponse.setBaseFormName("");
+                    }
+                    formListResponse.setUpdatedBy("Avensys");
+                    formListResponse.setUpdatedAt(formsEntity.getUpdatedAt());
+                    return formListResponse;
+                }
+        ).toList();
+        formListingResponseDTO.setForms(formListResponseList);
+        return formListingResponseDTO;
     }
 
     /**

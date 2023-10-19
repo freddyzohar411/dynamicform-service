@@ -16,6 +16,6 @@ public class FormListResponse {
     private String entityType;
     private Integer stepperNumber;
     private String baseFormName;
-    private String modifiedBy;
-    private LocalDateTime modifiedAt;
+    private String updatedBy;
+    private LocalDateTime updatedAt;
 }

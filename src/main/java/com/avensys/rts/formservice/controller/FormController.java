@@ -1,6 +1,7 @@
 package com.avensys.rts.formservice.controller;
 
 import com.avensys.rts.formservice.constant.MessageConstants;
+import com.avensys.rts.formservice.payloadrequest.FormListingRequestDTO;
 import com.avensys.rts.formservice.payloadrequest.FormRequestDTO;
 import com.avensys.rts.formservice.payloadresponse.FormResponseDTO;
 import com.avensys.rts.formservice.service.FormServiceImpl;
@@ -13,6 +14,8 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /***
  * @author Koh He Xiang
@@ -83,6 +86,28 @@ public class FormController {
         log.info("Form get: Controller");
         FormResponseDTO formResponseDTO = formService.getFormByName(formName);
         return ResponseUtil.generateSuccessResponse(formResponseDTO, HttpStatus.OK, messageSource.getMessage(MessageConstants.MESSAGE_SUCCESS, null, LocaleContextHolder.getLocale()));
+    }
+
+    @PostMapping("/forms/listing")
+    public ResponseEntity<Object> getFormListing(@RequestBody FormListingRequestDTO formListingRequestDTO)  {
+        log.info("Account get all fields: Controller");
+        Integer page = formListingRequestDTO.getPage();
+        Integer pageSize = formListingRequestDTO.getPageSize();
+        String sortBy = formListingRequestDTO.getSortBy();
+        String sortDirection = formListingRequestDTO.getSortDirection();
+        String searchTerm = formListingRequestDTO.getSearchTerm();
+        System.out.println(("Test 1"));
+        System.out.println("Page: " + page);
+        System.out.println("PageSize: " + pageSize);
+        System.out.println("SortBy: " + sortBy);
+        System.out.println("SortDirection: " + sortDirection);
+        System.out.println("SearchTerm: " + searchTerm);
+        if (searchTerm == null || searchTerm.isEmpty()) {
+            System.out.println(("Test 2"));
+            return ResponseUtil.generateSuccessResponse(formService.getFormListingPage(page, pageSize, sortBy, sortDirection), HttpStatus.OK, messageSource.getMessage(MessageConstants.MESSAGE_SUCCESS, null, LocaleContextHolder.getLocale()));
+        }
+        return ResponseUtil.generateSuccessResponse(formService.getFormListingPageWithSearch(
+                page, pageSize, sortBy, sortDirection, searchTerm), HttpStatus.OK, messageSource.getMessage(MessageConstants.MESSAGE_SUCCESS, null, LocaleContextHolder.getLocale()));
     }
 
 }
