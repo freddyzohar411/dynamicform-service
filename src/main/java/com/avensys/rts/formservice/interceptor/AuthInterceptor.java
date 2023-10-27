@@ -48,8 +48,6 @@ public class AuthInterceptor implements HandlerInterceptor {
         // Validate JWT with the public key from keycloak
         jwtUtil.validateToken(token);
 
-
-
         // Extract all claims from the signed token
         Claims claims = jwtUtil.extractAllClaims(token);
 
