@@ -14,6 +14,7 @@ import java.util.List;
 public class FormRequestDTO {
     private String formName;
     private String formType;
+    private String formCategory;
     private Integer baseFormId;
     private String entityType;
     private Integer stepperNumber;

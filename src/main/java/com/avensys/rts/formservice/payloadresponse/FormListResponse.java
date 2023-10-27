@@ -13,6 +13,7 @@ public class FormListResponse {
     private Integer formId;
     private String formName;
     private String formType;
+    private String formCategory;
     private String entityType;
     private Integer stepperNumber;
     private String baseFormName;

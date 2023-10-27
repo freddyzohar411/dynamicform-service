@@ -15,6 +15,7 @@ public class FormResponseDTO {
     private Integer formId;
     private String formName;
     private String formType;
+    private String formCategory;
     private Integer baseFormId;
     private String entityType;
     private Integer stepperNumber;
