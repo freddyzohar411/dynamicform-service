@@ -74,6 +74,9 @@ public class FormsEntity {
     @Column(name = "stepper_number")
     private Integer stepperNumber;
 
+    @Column(name= "formCategory")
+    private String formCategory;
+
     @ManyToOne
     @JoinColumn(name = "baseform", referencedColumnName = "id")
     private FormsEntity baseForm;

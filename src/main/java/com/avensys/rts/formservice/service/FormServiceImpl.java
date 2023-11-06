@@ -174,6 +174,7 @@ public class FormServiceImpl implements FormService {
                     }
                     formListResponse.setUpdatedBy("Avensys");
                     formListResponse.setUpdatedAt(formsEntity.getUpdatedAt());
+                    formListResponse.setFormCategory(formsEntity.getFormCategory());
                     return formListResponse;
                 }
         ).toList(
@@ -295,7 +296,6 @@ public class FormServiceImpl implements FormService {
             }
         });
 
-
         // Update form name
         formFound.setFormName(formRequest.getFormName());
         formFound.setFormType(formRequest.getFormType());
@@ -310,6 +310,10 @@ public class FormServiceImpl implements FormService {
         } else {
             formFound.setBaseForm(null);
         }
+
+        // Added - 27102023
+        formFound.setFormCategory(formRequest.getFormCategory());
+
         FormsEntity updatedForm = formsRepository.save(formFound);
 
         return null;
@@ -411,7 +415,7 @@ public class FormServiceImpl implements FormService {
         }
 
         // Dynamic search based on custom view (future feature)
-        List<String> customView = List.of("id", "formName", "entityType", "baseFormName", "updatedAt","formType");
+        List<String> customView = List.of("id", "formName", "entityType", "baseFormName", "updatedAt","formType","formCategory");
         Specification<FormsEntity> specification = (root, query, criteriaBuilder) -> {
 
             List<Predicate> predicates = new ArrayList<>();
@@ -468,6 +472,10 @@ public class FormServiceImpl implements FormService {
                     }
                     formListResponse.setUpdatedBy("Avensys");
                     formListResponse.setUpdatedAt(formsEntity.getUpdatedAt());
+
+                    //Added -27102023
+                    formListResponse.setFormCategory(formsEntity.getFormCategory());
+
                     return formListResponse;
                 }
         ).toList();
@@ -497,6 +505,10 @@ public class FormServiceImpl implements FormService {
         formResponseDTO.setStepperNumber(formsEntity.getStepperNumber());
         formResponseDTO.setFormFieldsList(formFieldDTOList);
         formResponseDTO.setFormSchemaList(formSchemaList);
+
+        //Added -27102023
+        formResponseDTO.setFormCategory(formsEntity.getFormCategory());
+
         return formResponseDTO;
     }
 
@@ -658,6 +670,7 @@ public class FormServiceImpl implements FormService {
         formsEntity.setFormType(formRequest.getFormType());
         formsEntity.setEntityType(formRequest.getEntityType());
         formsEntity.setStepperNumber(formRequest.getStepperNumber());
+        formsEntity.setFormCategory(formRequest.getFormCategory());
 
         if (formRequest.getBaseFormId() != null && formRequest.getBaseFormId() > 0) {
             FormsEntity baseForm = formsRepository.findById(formRequest.getBaseFormId()).orElseThrow(() ->
