@@ -54,4 +54,7 @@ public class FormFieldDTO {
     private String fieldSize;
     private String wordSize;
     private String wordText;
+
+    //Added 15112023
+    private String list;
 }

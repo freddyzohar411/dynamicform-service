@@ -175,4 +175,8 @@ public class FormFieldsEntity {
     @Column(name="word_text")
     private String wordText;
 
+    // Added 15112023
+    @Column(name="list")
+    private String list;
+
 }

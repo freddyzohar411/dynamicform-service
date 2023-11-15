@@ -143,6 +143,8 @@ public class FormServiceImpl implements FormService {
                 formFieldsEntity.setFieldSize(formField.getFieldSize());
                 formFieldsEntity.setWordSize(formField.getWordSize());
                 formFieldsEntity.setWordText(formField.getWordText());
+                // Added 15112023
+                formFieldsEntity.setList(formField.getList());
                 formFieldsRepository.save(formFieldsEntity);
             }
         });
@@ -292,6 +294,9 @@ public class FormServiceImpl implements FormService {
                 formFieldsEntity.setFieldSize(formField.getFieldSize());
                 formFieldsEntity.setWordSize(formField.getWordSize());
                 formFieldsEntity.setWordText(formField.getWordText());
+
+                // Added 15112023
+                formFieldsEntity.setList(formField.getList());
                 formFieldsRepository.save(formFieldsEntity);
             }
         });
@@ -574,6 +579,9 @@ public class FormServiceImpl implements FormService {
                     formFieldDTO.setFieldType(formFieldsEntity.getFieldType());
                     formFieldDTO.setWordSize(formFieldsEntity.getWordSize());
                     formFieldDTO.setWordText(formFieldsEntity.getWordText());
+
+                    // Added 15112023
+                    formFieldDTO.setList(formFieldsEntity.getList());
                     return formFieldDTO;
                 }
         ).toList(
@@ -649,6 +657,9 @@ public class FormServiceImpl implements FormService {
                     formFieldDTO.setFieldSize(formFieldsEntity.getFieldSize());
                     formFieldDTO.setWordSize(formFieldsEntity.getWordSize());
                     formFieldDTO.setWordText(formFieldsEntity.getWordText());
+
+                    // Added 15112023
+                    formFieldDTO.setList(formFieldsEntity.getList());
                     return formFieldDTO;
                 }
         ).toList();
@@ -767,6 +778,9 @@ public class FormServiceImpl implements FormService {
         formFieldsEntity.setFieldSize(formFieldDTO.getFieldSize());
         formFieldsEntity.setWordSize(formFieldDTO.getWordSize());
         formFieldsEntity.setWordText(formFieldDTO.getWordText());
+
+        // Added 15112023
+        formFieldsEntity.setList(formFieldDTO.getList());
         return formFieldsRepository.save(formFieldsEntity);
     }
 }
