@@ -179,4 +179,11 @@ public class FormFieldsEntity {
     @Column(name="list")
     private String list;
 
+    // Added 16112023
+    @Column(name = "condition_validation", columnDefinition = "TEXT")
+    private String conditionValidation;
+
+    @Column(name = "condition_validation_error_message")
+    private String conditionValidationErrorMessage;
+
 }

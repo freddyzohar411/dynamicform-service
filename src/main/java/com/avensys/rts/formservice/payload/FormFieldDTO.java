@@ -57,4 +57,8 @@ public class FormFieldDTO {
 
     //Added 15112023
     private String list;
+
+    //Added 16112023
+    private String conditionValidation;
+    private String conditionValidationErrorMessage;
 }

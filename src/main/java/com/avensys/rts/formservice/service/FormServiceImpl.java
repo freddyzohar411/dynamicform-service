@@ -145,6 +145,11 @@ public class FormServiceImpl implements FormService {
                 formFieldsEntity.setWordText(formField.getWordText());
                 // Added 15112023
                 formFieldsEntity.setList(formField.getList());
+
+                // Added 16112023
+                formFieldsEntity.setConditionValidation(formField.getConditionValidation());
+                formFieldsEntity.setConditionValidationErrorMessage(formField.getConditionValidationErrorMessage());
+
                 formFieldsRepository.save(formFieldsEntity);
             }
         });
@@ -297,6 +302,11 @@ public class FormServiceImpl implements FormService {
 
                 // Added 15112023
                 formFieldsEntity.setList(formField.getList());
+
+                // Added 16112023
+                formFieldsEntity.setConditionValidation(formField.getConditionValidation());
+                formFieldsEntity.setConditionValidationErrorMessage(formField.getConditionValidationErrorMessage());
+
                 formFieldsRepository.save(formFieldsEntity);
             }
         });
@@ -582,6 +592,11 @@ public class FormServiceImpl implements FormService {
 
                     // Added 15112023
                     formFieldDTO.setList(formFieldsEntity.getList());
+
+                    //Added 16112023
+                    formFieldDTO.setConditionValidation(formFieldsEntity.getConditionValidation());
+                    formFieldDTO.setConditionValidationErrorMessage(formFieldsEntity.getConditionValidationErrorMessage());
+
                     return formFieldDTO;
                 }
         ).toList(
@@ -660,6 +675,11 @@ public class FormServiceImpl implements FormService {
 
                     // Added 15112023
                     formFieldDTO.setList(formFieldsEntity.getList());
+
+                    // Added 16112023
+                    formFieldDTO.setConditionValidation(formFieldsEntity.getConditionValidation());
+                    formFieldDTO.setConditionValidationErrorMessage(formFieldsEntity.getConditionValidationErrorMessage());
+
                     return formFieldDTO;
                 }
         ).toList();
@@ -781,6 +801,11 @@ public class FormServiceImpl implements FormService {
 
         // Added 15112023
         formFieldsEntity.setList(formFieldDTO.getList());
+
+        // Added 16112023
+        formFieldsEntity.setConditionValidation(formFieldDTO.getConditionValidation());
+        formFieldsEntity.setConditionValidationErrorMessage(formFieldDTO.getConditionValidationErrorMessage());
+
         return formFieldsRepository.save(formFieldsEntity);
     }
 }
