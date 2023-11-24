@@ -54,4 +54,11 @@ public class FormFieldDTO {
     private String fieldSize;
     private String wordSize;
     private String wordText;
+
+    //Added 15112023
+    private String list;
+
+    //Added 16112023
+    private String conditionValidation;
+    private String conditionValidationErrorMessage;
 }

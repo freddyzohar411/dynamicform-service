@@ -143,6 +143,13 @@ public class FormServiceImpl implements FormService {
                 formFieldsEntity.setFieldSize(formField.getFieldSize());
                 formFieldsEntity.setWordSize(formField.getWordSize());
                 formFieldsEntity.setWordText(formField.getWordText());
+                // Added 15112023
+                formFieldsEntity.setList(formField.getList());
+
+                // Added 16112023
+                formFieldsEntity.setConditionValidation(formField.getConditionValidation());
+                formFieldsEntity.setConditionValidationErrorMessage(formField.getConditionValidationErrorMessage());
+
                 formFieldsRepository.save(formFieldsEntity);
             }
         });
@@ -292,6 +299,14 @@ public class FormServiceImpl implements FormService {
                 formFieldsEntity.setFieldSize(formField.getFieldSize());
                 formFieldsEntity.setWordSize(formField.getWordSize());
                 formFieldsEntity.setWordText(formField.getWordText());
+
+                // Added 15112023
+                formFieldsEntity.setList(formField.getList());
+
+                // Added 16112023
+                formFieldsEntity.setConditionValidation(formField.getConditionValidation());
+                formFieldsEntity.setConditionValidationErrorMessage(formField.getConditionValidationErrorMessage());
+
                 formFieldsRepository.save(formFieldsEntity);
             }
         });
@@ -574,6 +589,14 @@ public class FormServiceImpl implements FormService {
                     formFieldDTO.setFieldType(formFieldsEntity.getFieldType());
                     formFieldDTO.setWordSize(formFieldsEntity.getWordSize());
                     formFieldDTO.setWordText(formFieldsEntity.getWordText());
+
+                    // Added 15112023
+                    formFieldDTO.setList(formFieldsEntity.getList());
+
+                    //Added 16112023
+                    formFieldDTO.setConditionValidation(formFieldsEntity.getConditionValidation());
+                    formFieldDTO.setConditionValidationErrorMessage(formFieldsEntity.getConditionValidationErrorMessage());
+
                     return formFieldDTO;
                 }
         ).toList(
@@ -649,6 +672,14 @@ public class FormServiceImpl implements FormService {
                     formFieldDTO.setFieldSize(formFieldsEntity.getFieldSize());
                     formFieldDTO.setWordSize(formFieldsEntity.getWordSize());
                     formFieldDTO.setWordText(formFieldsEntity.getWordText());
+
+                    // Added 15112023
+                    formFieldDTO.setList(formFieldsEntity.getList());
+
+                    // Added 16112023
+                    formFieldDTO.setConditionValidation(formFieldsEntity.getConditionValidation());
+                    formFieldDTO.setConditionValidationErrorMessage(formFieldsEntity.getConditionValidationErrorMessage());
+
                     return formFieldDTO;
                 }
         ).toList();
@@ -767,6 +798,14 @@ public class FormServiceImpl implements FormService {
         formFieldsEntity.setFieldSize(formFieldDTO.getFieldSize());
         formFieldsEntity.setWordSize(formFieldDTO.getWordSize());
         formFieldsEntity.setWordText(formFieldDTO.getWordText());
+
+        // Added 15112023
+        formFieldsEntity.setList(formFieldDTO.getList());
+
+        // Added 16112023
+        formFieldsEntity.setConditionValidation(formFieldDTO.getConditionValidation());
+        formFieldsEntity.setConditionValidationErrorMessage(formFieldDTO.getConditionValidationErrorMessage());
+
         return formFieldsRepository.save(formFieldsEntity);
     }
 }
