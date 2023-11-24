@@ -186,4 +186,16 @@ public class FormFieldsEntity {
     @Column(name = "condition_validation_error_message")
     private String conditionValidationErrorMessage;
 
+    @Column(name = "table_delete")
+    private String tableDelete;
+
+    @Column(name = "table_edit")
+    private String tableEdit;
+
+    @Column(name = "table_api")
+    private String tableApi;
+
+    @Column(name = "table_api_url")
+    private String tableApiUrl;
+
 }
