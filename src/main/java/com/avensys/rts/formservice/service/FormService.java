@@ -2,9 +2,7 @@ package com.avensys.rts.formservice.service;
 
 import com.avensys.rts.formservice.entity.FormsEntity;
 import com.avensys.rts.formservice.payloadrequest.FormRequestDTO;
-import com.avensys.rts.formservice.payloadresponse.FormListResponse;
-import com.avensys.rts.formservice.payloadresponse.FormListingResponseDTO;
-import com.avensys.rts.formservice.payloadresponse.FormResponseDTO;
+import com.avensys.rts.formservice.payloadresponse.*;
 
 import java.util.List;
 
@@ -42,4 +40,7 @@ public interface FormService {
 
     FormListingResponseDTO getFormListingPageWithSearch(Integer page, Integer pageSize, String sortBy, String sortDirection, String searchTerm);
 
+    List<String> getFormCategories();
+
+    FormTemplateNamesListResponseDTO getFormsTemplateNamesByCategory(String formCategory);
 }

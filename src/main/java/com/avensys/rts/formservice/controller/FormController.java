@@ -4,6 +4,8 @@ import com.avensys.rts.formservice.constant.MessageConstants;
 import com.avensys.rts.formservice.payloadrequest.FormListingRequestDTO;
 import com.avensys.rts.formservice.payloadrequest.FormRequestDTO;
 import com.avensys.rts.formservice.payloadresponse.FormResponseDTO;
+import com.avensys.rts.formservice.payloadresponse.FormTemplateNamesListResponseDTO;
+import com.avensys.rts.formservice.payloadresponse.FormTemplateNamesResponseDTO;
 import com.avensys.rts.formservice.service.FormServiceImpl;
 import com.avensys.rts.formservice.util.ResponseUtil;
 import jakarta.validation.Valid;
@@ -108,6 +110,21 @@ public class FormController {
         }
         return ResponseUtil.generateSuccessResponse(formService.getFormListingPageWithSearch(
                 page, pageSize, sortBy, sortDirection, searchTerm), HttpStatus.OK, messageSource.getMessage(MessageConstants.MESSAGE_SUCCESS, null, LocaleContextHolder.getLocale()));
+    }
+
+    @GetMapping("/forms/categories")
+    public ResponseEntity<Object> getFormCategories() {
+        log.info("Form get: Controller");
+        List<String> formCategories = formService.getFormCategories();
+        return ResponseUtil.generateSuccessResponse(formCategories, HttpStatus.OK, messageSource.getMessage(MessageConstants.MESSAGE_SUCCESS, null, LocaleContextHolder.getLocale()));
+    }
+
+    @GetMapping("/forms/categories/{formCategory}")
+    public ResponseEntity<Object> getFormByCategory(@PathVariable String formCategory) {
+        System.out.println("Form Cat:" + formCategory.isEmpty() + " " + formCategory);
+        log.info("Form get: Controller");
+        FormTemplateNamesListResponseDTO formResponseDTOList = formService.getFormsTemplateNamesByCategory(formCategory);
+        return ResponseUtil.generateSuccessResponse(formResponseDTOList, HttpStatus.OK, messageSource.getMessage(MessageConstants.MESSAGE_SUCCESS, null, LocaleContextHolder.getLocale()));
     }
 
 }

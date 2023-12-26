@@ -7,9 +7,7 @@ import com.avensys.rts.formservice.payload.DroppableZone;
 import com.avensys.rts.formservice.payload.FormFieldDTO;
 import com.avensys.rts.formservice.payloadrequest.FormRequestDTO;
 import com.avensys.rts.formservice.payload.FormSchemaDTO;
-import com.avensys.rts.formservice.payloadresponse.FormListResponse;
-import com.avensys.rts.formservice.payloadresponse.FormListingResponseDTO;
-import com.avensys.rts.formservice.payloadresponse.FormResponseDTO;
+import com.avensys.rts.formservice.payloadresponse.*;
 import com.avensys.rts.formservice.repository.FormFieldsRepository;
 import com.avensys.rts.formservice.repository.FormsRepository;
 import com.avensys.rts.formservice.repository.SectionsRepository;
@@ -149,6 +147,11 @@ public class FormServiceImpl implements FormService {
                 // Added 16112023
                 formFieldsEntity.setConditionValidation(formField.getConditionValidation());
                 formFieldsEntity.setConditionValidationErrorMessage(formField.getConditionValidationErrorMessage());
+
+                // Added 26122023
+                formFieldsEntity.setFormCategorySelect(formField.getFormCategorySelect());
+                formFieldsEntity.setInformation(formField.getInformation());
+                formFieldsEntity.setInformationText(formField.getInformationText());
 
                 formFieldsRepository.save(formFieldsEntity);
             }
@@ -306,6 +309,11 @@ public class FormServiceImpl implements FormService {
                 // Added 16112023
                 formFieldsEntity.setConditionValidation(formField.getConditionValidation());
                 formFieldsEntity.setConditionValidationErrorMessage(formField.getConditionValidationErrorMessage());
+
+                // Added 26122023
+                formFieldsEntity.setFormCategorySelect(formField.getFormCategorySelect());
+                formFieldsEntity.setInformation(formField.getInformation());
+                formFieldsEntity.setInformationText(formField.getInformationText());
 
                 formFieldsRepository.save(formFieldsEntity);
             }
@@ -465,6 +473,38 @@ public class FormServiceImpl implements FormService {
         return formPageToFormListingDTO(formsPage);
     }
 
+    @Override
+    public List<String> getFormCategories() {
+        return formsRepository.getFormCategories();
+    }
+
+    @Override
+    public FormTemplateNamesListResponseDTO getFormsTemplateNamesByCategory(String formCategory) {
+        List<FormTemplateNamesResponseDTO> formTemplateNamesData = null;
+        if (formCategory.equals("ALL")) {
+             formTemplateNamesData = formsRepository.findAll().stream().map(
+                    formsEntity -> {
+                        FormTemplateNamesResponseDTO formTemplateNamesResponseDTO = new FormTemplateNamesResponseDTO();
+                        formTemplateNamesResponseDTO.setFormId(formsEntity.getId());
+                        formTemplateNamesResponseDTO.setFormName(formsEntity.getFormName());
+                        return formTemplateNamesResponseDTO;
+                    }
+            ).toList();
+        } else {
+            formTemplateNamesData = formsRepository.getFormsByFormCategory(
+                    formCategory).stream().map(formsEntity -> {
+                FormTemplateNamesResponseDTO formTemplateNamesResponseDTO = new FormTemplateNamesResponseDTO();
+                formTemplateNamesResponseDTO.setFormId(formsEntity.getId());
+                formTemplateNamesResponseDTO.setFormName(formsEntity.getFormName());
+                return formTemplateNamesResponseDTO;
+            }).toList();
+        }
+        FormTemplateNamesListResponseDTO formTemplateNamesListResponseDTO = new FormTemplateNamesListResponseDTO();
+        formTemplateNamesListResponseDTO.setCategory(formCategory);
+        formTemplateNamesListResponseDTO.setFormTemplateNamesList(formTemplateNamesData);
+        return formTemplateNamesListResponseDTO;
+    }
+
     private FormListingResponseDTO formPageToFormListingDTO(Page<FormsEntity> formEntitiesPage) {
         FormListingResponseDTO formListingResponseDTO = new FormListingResponseDTO();
         formListingResponseDTO.setTotalPages(formEntitiesPage.getTotalPages());
@@ -597,6 +637,11 @@ public class FormServiceImpl implements FormService {
                     formFieldDTO.setConditionValidation(formFieldsEntity.getConditionValidation());
                     formFieldDTO.setConditionValidationErrorMessage(formFieldsEntity.getConditionValidationErrorMessage());
 
+                    // Added 26122023
+                    formFieldDTO.setFormCategorySelect(formFieldsEntity.getFormCategorySelect());
+                    formFieldDTO.setInformation(formFieldsEntity.getInformation());
+                    formFieldDTO.setInformationText(formFieldsEntity.getInformationText());
+
                     return formFieldDTO;
                 }
         ).toList(
@@ -679,6 +724,11 @@ public class FormServiceImpl implements FormService {
                     // Added 16112023
                     formFieldDTO.setConditionValidation(formFieldsEntity.getConditionValidation());
                     formFieldDTO.setConditionValidationErrorMessage(formFieldsEntity.getConditionValidationErrorMessage());
+
+                    // Added 26122023
+                    formFieldDTO.setFormCategorySelect(formFieldsEntity.getFormCategorySelect());
+                    formFieldDTO.setInformation(formFieldsEntity.getInformation());
+                    formFieldDTO.setInformationText(formFieldsEntity.getInformationText());
 
                     return formFieldDTO;
                 }
@@ -805,6 +855,11 @@ public class FormServiceImpl implements FormService {
         // Added 16112023
         formFieldsEntity.setConditionValidation(formFieldDTO.getConditionValidation());
         formFieldsEntity.setConditionValidationErrorMessage(formFieldDTO.getConditionValidationErrorMessage());
+
+        // Added 26122023
+        formFieldsEntity.setFormCategorySelect(formFieldDTO.getFormCategorySelect());
+        formFieldsEntity.setInformation(formFieldDTO.getInformation());
+        formFieldsEntity.setInformationText(formFieldDTO.getInformationText());
 
         return formFieldsRepository.save(formFieldsEntity);
     }

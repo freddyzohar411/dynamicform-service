@@ -186,6 +186,17 @@ public class FormFieldsEntity {
     @Column(name = "condition_validation_error_message")
     private String conditionValidationErrorMessage;
 
+    // Added 26122023
+    @Column (name = "form_category_select")
+    private String formCategorySelect;
+
+    @Column (name = "information")
+    private Boolean information;
+
+    @Column (name = "information_text")
+    private String informationText;
+
+    // Unused fields
     @Column(name = "table_delete")
     private String tableDelete;
 

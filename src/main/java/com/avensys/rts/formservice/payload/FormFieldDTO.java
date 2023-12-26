@@ -61,4 +61,9 @@ public class FormFieldDTO {
     //Added 16112023
     private String conditionValidation;
     private String conditionValidationErrorMessage;
+
+    // Added 26122023
+    private String formCategorySelect;
+    private Boolean information;
+    private String informationText;
 }
