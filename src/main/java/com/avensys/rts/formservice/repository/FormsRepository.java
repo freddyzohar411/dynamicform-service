@@ -27,4 +27,8 @@ public interface FormsRepository extends JpaRepository<FormsEntity, Integer>, Jp
 
     Page<FormsEntity> findAll(Specification<FormsEntity> specification, Pageable pageable);
 
+    // Get a list of Form categories (distinct)
+    @Query(value = "SELECT DISTINCT f.formCategory FROM forms f")
+    List<String> getFormCategories();
+
 }
