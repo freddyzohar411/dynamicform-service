@@ -413,8 +413,6 @@ public class FormServiceImpl implements FormService {
         return formPageToFormListingDTO(accountsPage);
     }
 
-
-
     @Override
     public FormListingResponseDTO getFormListingPageWithSearch(Integer page, Integer size, String sortBy, String sortDirection, String searchTerm) {
         System.out.println("Sorting With Search");
