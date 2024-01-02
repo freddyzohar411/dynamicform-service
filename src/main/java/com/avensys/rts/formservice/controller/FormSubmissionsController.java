@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*")
+@RequestMapping("/api/form-submissions")
 public class FormSubmissionsController {
     private final Logger log = LoggerFactory.getLogger(FormSubmissionsController.class);
 
@@ -28,47 +29,47 @@ public class FormSubmissionsController {
         this.messageSource = messageSource;
     }
 
-    @PostMapping("/form-submissions")
+    @PostMapping("")
     public ResponseEntity<Object> addFormSubmission(@RequestBody FormSubmissionsRequestDTO formSubmissionsRequestDTO) {
         log.info("Form Submission create: Controller");
         FormSubmissionsResponseDTO formSubmissionsResponseDTO = formSubmissionService.createFormSubmission(formSubmissionsRequestDTO);
         return ResponseUtil.generateSuccessResponse(formSubmissionsResponseDTO, HttpStatus.CREATED, messageSource.getMessage(MessageConstants.MESSAGE_CREATED, null, LocaleContextHolder.getLocale()));
     }
 
-    @GetMapping("/form-submissions/{formSubmissionId}")
+    @GetMapping("/{formSubmissionId}")
     public ResponseEntity<Object> getFormSubmission(@PathVariable int formSubmissionId) {
         log.info("Form Submission get: Controller");
         FormSubmissionsResponseDTO formSubmissionsResponseDTO = formSubmissionService.getFormSubmission(formSubmissionId);
         return ResponseUtil.generateSuccessResponse(formSubmissionsResponseDTO, HttpStatus.OK, messageSource.getMessage(MessageConstants.MESSAGE_SUCCESS, null, LocaleContextHolder.getLocale()));
     }
 
-    @GetMapping("/form-submissions")
+    @GetMapping("")
     public ResponseEntity<Object> getAllFormSubmissions() {
         log.info("Form Submission get: Controller");
         return ResponseUtil.generateSuccessResponse(formSubmissionService.getAllFormSubmissions(), HttpStatus.OK, messageSource.getMessage(MessageConstants.MESSAGE_SUCCESS, null, LocaleContextHolder.getLocale()));
     }
 
-    @DeleteMapping("/form-submissions/{formSubmissionId}")
+    @DeleteMapping("/{formSubmissionId}")
     public ResponseEntity<Object> deleteFormSubmission(@PathVariable int formSubmissionId) {
         log.info("Form Submission delete: Controller");
         formSubmissionService.deleteFormSubmission(formSubmissionId);
         return ResponseUtil.generateSuccessResponse(null, HttpStatus.OK, messageSource.getMessage(MessageConstants.MESSAGE_SUCCESS, null, LocaleContextHolder.getLocale()));
     }
 
-    @PutMapping("/form-submissions/{formSubmissionId}")
+    @PutMapping("/{formSubmissionId}")
     public ResponseEntity<Object> updateFormSubmission(@PathVariable int formSubmissionId, @RequestBody FormSubmissionsRequestDTO formSubmissionsRequestDTO) {
         log.info("Form Submission update: Controller");
         FormSubmissionsResponseDTO formSubmissionsResponseDTO = formSubmissionService.updateFormSubmission(formSubmissionId, formSubmissionsRequestDTO);
         return ResponseUtil.generateSuccessResponse(formSubmissionsResponseDTO, HttpStatus.OK, messageSource.getMessage(MessageConstants.MESSAGE_SUCCESS, null, LocaleContextHolder.getLocale()));
     }
 
-    @GetMapping("/form-submissions/entity/{entityName}")
+    @GetMapping("/entity/{entityName}")
     public ResponseEntity<Object> getFormFieldList(@PathVariable String entityName) {
         log.info("Form Submission get: Controller");
         return ResponseUtil.generateSuccessResponse(formSubmissionService.getFormFieldList(entityName), HttpStatus.OK, messageSource.getMessage(MessageConstants.MESSAGE_SUCCESS, null, LocaleContextHolder.getLocale()));
     }
 
-    @GetMapping("/form-submissions/entity/{entityName}/names")
+    @GetMapping("/entity/{entityName}/names")
     public ResponseEntity<Object> getFormFieldNameList(@PathVariable String entityName) {
         log.info("Form Submission get: Controller");
         return ResponseUtil.generateSuccessResponse(formSubmissionService.getFormFieldNameList(entityName), HttpStatus.OK, messageSource.getMessage(MessageConstants.MESSAGE_SUCCESS, null, LocaleContextHolder.getLocale()));

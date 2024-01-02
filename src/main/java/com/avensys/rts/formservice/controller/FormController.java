@@ -26,6 +26,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*")
+@RequestMapping("/api/forms")
 public class FormController {
 
     private final Logger log = LoggerFactory.getLogger(FormController.class);
@@ -42,27 +43,27 @@ public class FormController {
      * This method is used to create a form
      * @return
      */
-    @PostMapping("/forms")
+    @PostMapping("")
     public ResponseEntity<Object> addForm(@RequestBody FormRequestDTO formRequest) {
         log.info("Form create: Controller");
         formService.createForm(formRequest);
         return ResponseUtil.generateSuccessResponse(null, HttpStatus.CREATED, messageSource.getMessage(MessageConstants.MESSAGE_CREATED, null, LocaleContextHolder.getLocale()));
     }
 
-    @GetMapping("/forms/{formId}")
+    @GetMapping("/{formId}")
     public ResponseEntity<Object> getForm(@PathVariable int formId) {
         log.info("Form get: Controller");
         FormResponseDTO formResponseDTO = formService.getForm(formId);
         return ResponseUtil.generateSuccessResponse(formResponseDTO, HttpStatus.OK, messageSource.getMessage(MessageConstants.MESSAGE_SUCCESS, null, LocaleContextHolder.getLocale()));
     }
 
-    @GetMapping("/forms")
+    @GetMapping("")
     public ResponseEntity<Object> getAllForms() {
         log.info("Form get: Controller");
         return ResponseUtil.generateSuccessResponse(formService.getAllForms(), HttpStatus.OK, messageSource.getMessage(MessageConstants.MESSAGE_SUCCESS, null, LocaleContextHolder.getLocale()));
     }
 
-    @PutMapping("/forms/{formId}")
+    @PutMapping("/{formId}")
     public ResponseEntity<Object> updateForm(@RequestBody FormRequestDTO formRequest, @PathVariable int formId) {
         log.info("Form update: Controller");
         System.out.println(formRequest);
@@ -70,27 +71,27 @@ public class FormController {
         return ResponseUtil.generateSuccessResponse(formResponseDTO, HttpStatus.OK, messageSource.getMessage(MessageConstants.MESSAGE_SUCCESS, null, LocaleContextHolder.getLocale()));
     }
 
-    @DeleteMapping("/forms/{formId}")
+    @DeleteMapping("/{formId}")
     public ResponseEntity<Object> deleteForm(@PathVariable int formId) {
         log.info("Form delete: Controller");
         formService.deleteForm(formId);
         return ResponseUtil.generateSuccessResponse(null, HttpStatus.OK, messageSource.getMessage(MessageConstants.MESSAGE_SUCCESS, null, LocaleContextHolder.getLocale()));
     }
 
-    @GetMapping("/forms/base")
+    @GetMapping("/base")
     public ResponseEntity<Object> getBaseForms() {
         log.info("Form get: Controller");
         return ResponseUtil.generateSuccessResponse(formService.getBaseForms(), HttpStatus.OK, messageSource.getMessage(MessageConstants.MESSAGE_SUCCESS, null, LocaleContextHolder.getLocale()));
     }
 
-    @GetMapping("/forms/name/{formName}")
+    @GetMapping("/name/{formName}")
     public ResponseEntity<Object> getFormByName(@PathVariable String formName) {
         log.info("Form get: Controller");
         FormResponseDTO formResponseDTO = formService.getFormByName(formName);
         return ResponseUtil.generateSuccessResponse(formResponseDTO, HttpStatus.OK, messageSource.getMessage(MessageConstants.MESSAGE_SUCCESS, null, LocaleContextHolder.getLocale()));
     }
 
-    @PostMapping("/forms/listing")
+    @PostMapping("/listing")
     public ResponseEntity<Object> getFormListing(@RequestBody FormListingRequestDTO formListingRequestDTO)  {
         log.info("Account get all fields: Controller");
         Integer page = formListingRequestDTO.getPage();
@@ -112,14 +113,14 @@ public class FormController {
                 page, pageSize, sortBy, sortDirection, searchTerm), HttpStatus.OK, messageSource.getMessage(MessageConstants.MESSAGE_SUCCESS, null, LocaleContextHolder.getLocale()));
     }
 
-    @GetMapping("/forms/categories")
+    @GetMapping("/categories")
     public ResponseEntity<Object> getFormCategories() {
         log.info("Form get: Controller");
         List<String> formCategories = formService.getFormCategories();
         return ResponseUtil.generateSuccessResponse(formCategories, HttpStatus.OK, messageSource.getMessage(MessageConstants.MESSAGE_SUCCESS, null, LocaleContextHolder.getLocale()));
     }
 
-    @GetMapping("/forms/categories/{formCategory}")
+    @GetMapping("/categories/{formCategory}")
     public ResponseEntity<Object> getFormByCategory(@PathVariable String formCategory) {
         System.out.println("Form Cat:" + formCategory.isEmpty() + " " + formCategory);
         log.info("Form get: Controller");
