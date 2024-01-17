@@ -72,7 +72,7 @@ public class FormSubmissionsController {
     @GetMapping("/entity/{entityName}/names")
     public ResponseEntity<Object> getFormFieldNameList(@PathVariable String entityName) {
         log.info("Form Submission get: Controller");
-        return ResponseUtil.generateSuccessResponse(formSubmissionService.getFormFieldNameList(entityName), HttpStatus.OK, messageSource.getMessage(MessageConstants.MESSAGE_SUCCESS, null, LocaleContextHolder.getLocale()));
+        return ResponseUtil.generateSuccessResponse(formSubmissionService.getFormFieldNameList2(entityName), HttpStatus.OK, messageSource.getMessage(MessageConstants.MESSAGE_SUCCESS, null, LocaleContextHolder.getLocale()));
     }
 
     // Sorting and pagination
