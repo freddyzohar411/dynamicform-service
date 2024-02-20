@@ -28,6 +28,8 @@ public interface FormSubmissionsService {
 
     List<Map<String, String>> getFormFieldNameList2(String entityName);
 
+    List<Map<String, String>> getFormFieldNameList3(String entityName);
+
     Page<FormSubmissionsEntity> getFormSubmissionPage(Integer page, Integer size, String sortBy, String sortDirection);
 
     Page<FormSubmissionsEntity> getFormSubmissionPageWithSearch(Integer page, Integer size, String sortBy, String sortDirection, String searchTerm);
