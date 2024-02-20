@@ -1,6 +1,7 @@
 package com.avensys.rts.formservice.service;
 
 import com.avensys.rts.formservice.entity.FormSubmissionsEntity;
+import com.avensys.rts.formservice.payloadrequest.FormSubmissionFieldUniqueCheckRequestDTO;
 import com.avensys.rts.formservice.payloadrequest.FormSubmissionsRequestDTO;
 import com.avensys.rts.formservice.payloadresponse.FormSubmissionsResponseDTO;
 import org.springframework.data.domain.Page;
@@ -31,4 +32,5 @@ public interface FormSubmissionsService {
 
     Page<FormSubmissionsEntity> getFormSubmissionPageWithSearch(Integer page, Integer size, String sortBy, String sortDirection, String searchTerm);
 
+    Boolean checkIfFieldValueUnique(FormSubmissionFieldUniqueCheckRequestDTO formSubmissionFieldUniqueCheckRequestDTO);
 }
