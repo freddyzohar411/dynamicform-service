@@ -10,7 +10,10 @@ import java.util.List;
 public interface FormSubmissionsRepository
 		extends JpaRepository<FormSubmissionsEntity, Integer>, CustomFormSubmissionsRepository {
 
+
 	List<FormSubmissionsEntity> findAllByUserIdAndAndEntityType(Integer userId, String entityType);
+
+	List<FormSubmissionsEntity> findAllByEntityType(String entityType);
 
 	@Query(value = "SELECT EXISTS (" + "SELECT 1 FROM form_submissions " + "WHERE form_id = :formId "
 			+ "AND submission_data ->> :fieldName = :fieldValue)", nativeQuery = true)

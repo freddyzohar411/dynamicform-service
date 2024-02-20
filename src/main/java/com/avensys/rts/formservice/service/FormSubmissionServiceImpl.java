@@ -141,6 +141,37 @@ public class FormSubmissionServiceImpl implements FormSubmissionsService {
     }
 
     @Override
+    public List<Map<String, String>> getFormFieldNameList3(String entityName) {
+        List<FormSubmissionsEntity> formSubmissions = formSubmissionsRepository.findAllByEntityType(entityName);
+        if (formSubmissions.isEmpty()) {
+            return null;
+        }
+        Map<String, String> keyMap = new HashMap<>();
+        for (FormSubmissionsEntity formSubmissionsEntity : formSubmissions) {
+            Iterator<String> fieldNames = formSubmissionsEntity.getSubmissionData().fieldNames();
+            while (fieldNames.hasNext()) {
+                // if undefined then skip
+                String fieldName = fieldNames.next();
+                if (fieldName.equals("undefined")) {
+                    continue;
+                }
+                keyMap.put(StringUtil.convertCamelCaseToTitleCase2(fieldName), fieldName );
+            }
+        }
+        List<Map<String, String>> fieldOptions = new ArrayList<>();
+        // Loop Through map
+        for (Map.Entry<String, String> entry : keyMap.entrySet()) {
+            // Creat a list of map with label and value
+            Map<String, String> map = new HashMap<>();
+            map.put("label", entry.getKey());
+            map.put("value", entry.getValue());
+            fieldOptions.add(map);
+        }
+
+        return fieldOptions;
+    }
+
+    @Override
     public Page<FormSubmissionsEntity> getFormSubmissionPage(Integer page, Integer size, String sortBy, String sortDirection) {
         // Get sort direction
         Sort.Direction direction = Sort.DEFAULT_DIRECTION;
