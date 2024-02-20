@@ -2,6 +2,7 @@ package com.avensys.rts.formservice.controller;
 
 import com.avensys.rts.formservice.constant.MessageConstants;
 import com.avensys.rts.formservice.payloadrequest.FormRequestDTO;
+import com.avensys.rts.formservice.payloadrequest.FormSubmissionFieldUniqueCheckRequestDTO;
 import com.avensys.rts.formservice.payloadrequest.FormSubmissionsRequestDTO;
 import com.avensys.rts.formservice.payloadresponse.FormSubmissionsResponseDTO;
 import com.avensys.rts.formservice.service.FormServiceImpl;
@@ -101,6 +102,14 @@ public class FormSubmissionsController {
             return ResponseUtil.generateSuccessResponse(formSubmissionService.getFormSubmissionPage(page, pageSize, sortBy,sortDirection), HttpStatus.OK, messageSource.getMessage(MessageConstants.MESSAGE_SUCCESS, null, LocaleContextHolder.getLocale()));
         }
         return ResponseUtil.generateSuccessResponse(formSubmissionService.getFormSubmissionPageWithSearch(page, pageSize, sortBy,sortDirection, searchTerm), HttpStatus.OK, messageSource.getMessage(MessageConstants.MESSAGE_SUCCESS, null, LocaleContextHolder.getLocale()));
+    }
+
+    @PostMapping("/field-unique-check")
+    public ResponseEntity<Object> checkFieldUnique(@RequestBody FormSubmissionFieldUniqueCheckRequestDTO formSubmissionFieldUniqueCheckRequestDTO) {
+        Boolean result = formSubmissionService.checkIfFieldValueUnique(formSubmissionFieldUniqueCheckRequestDTO);
+        System.out.println("Result: " + result);
+        log.info("Form Submission create: Controller");
+        return ResponseUtil.generateSuccessResponse(result, HttpStatus.OK, messageSource.getMessage(MessageConstants.MESSAGE_SUCCESS, null, LocaleContextHolder.getLocale()));
     }
 
 }

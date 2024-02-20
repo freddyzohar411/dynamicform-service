@@ -3,6 +3,7 @@ package com.avensys.rts.formservice.service;
 import com.avensys.rts.formservice.APIClient.UserAPIClient;
 import com.avensys.rts.formservice.customresponse.HttpResponse;
 import com.avensys.rts.formservice.entity.FormSubmissionsEntity;
+import com.avensys.rts.formservice.payloadrequest.FormSubmissionFieldUniqueCheckRequestDTO;
 import com.avensys.rts.formservice.payloadrequest.FormSubmissionsRequestDTO;
 import com.avensys.rts.formservice.payloadresponse.FormSubmissionsResponseDTO;
 import com.avensys.rts.formservice.payloadresponse.UserResponseDTO;
@@ -174,6 +175,16 @@ public class FormSubmissionServiceImpl implements FormSubmissionsService {
                 pageRequest,
                 List.of("id","submission_data.accountName", "submission_data.accountStatus", "submission_data.accountType"),
                 searchTerm
+        );
+    }
+
+    @Override
+    public Boolean checkIfFieldValueUnique(
+            FormSubmissionFieldUniqueCheckRequestDTO formSubmissionFieldUniqueCheckRequestDTO) {
+       return formSubmissionsRepository.existsByFormIdAndSubmissionDataField(
+                formSubmissionFieldUniqueCheckRequestDTO.getFormId(),
+                formSubmissionFieldUniqueCheckRequestDTO.getFieldName(),
+                formSubmissionFieldUniqueCheckRequestDTO.getFieldValue()
         );
     }
 
