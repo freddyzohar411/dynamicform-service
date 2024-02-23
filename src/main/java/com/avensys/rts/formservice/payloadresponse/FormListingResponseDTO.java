@@ -1,19 +1,20 @@
 package com.avensys.rts.formservice.payloadresponse;
 
-import com.avensys.rts.formservice.entity.FormsEntity;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import java.util.List;
 
-@Data
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 public class FormListingResponseDTO {
-    private Integer totalPages;
-    private Long totalElements;
-    private Integer page;
-    private Integer pageSize;
-    private List<FormListResponse> forms;
+	private Integer totalPages;
+	private Long totalElements;
+	private Integer page;
+	private Integer pageSize;
+	private List<FormListResponse> forms;
 }

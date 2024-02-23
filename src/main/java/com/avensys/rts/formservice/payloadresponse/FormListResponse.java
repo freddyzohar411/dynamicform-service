@@ -1,22 +1,24 @@
 package com.avensys.rts.formservice.payloadresponse;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import java.time.LocalDateTime;
 
-@Data
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Setter
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
 public class FormListResponse {
-    private Integer formId;
-    private String formName;
-    private String formType;
-    private String formCategory;
-    private String entityType;
-    private Integer stepperNumber;
-    private String baseFormName;
-    private String updatedBy;
-    private LocalDateTime updatedAt;
+	private Integer formId;
+	private String formName;
+	private String formType;
+	private String formCategory;
+	private String entityType;
+	private Integer stepperNumber;
+	private String baseFormName;
+	private String updatedBy;
+	private LocalDateTime updatedAt;
 }

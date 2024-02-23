@@ -3,10 +3,12 @@ package com.avensys.rts.formservice.payloadresponse;
 import java.util.List;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
+@Setter
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
 public class FormTemplateNamesListResponseDTO {
