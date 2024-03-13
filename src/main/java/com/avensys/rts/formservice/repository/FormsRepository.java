@@ -35,4 +35,8 @@ public interface FormsRepository extends JpaRepository<FormsEntity, Integer>, Jp
     @Query(value = "SELECT f FROM forms f WHERE f.formCategory = ?1")
     List<FormsEntity> getFormsByFormCategory(String formCategory);
 
+    // Get all forms by List<String> formTemplateNames
+    @Query(value = "SELECT f FROM forms f WHERE f.formName IN ?1")
+    List<FormsEntity> getFormsByFormTemplateNames(List<String> formTemplateNames);
+
 }

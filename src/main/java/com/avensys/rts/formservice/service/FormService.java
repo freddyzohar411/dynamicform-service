@@ -5,6 +5,7 @@ import com.avensys.rts.formservice.payloadrequest.FormRequestDTO;
 import com.avensys.rts.formservice.payloadresponse.*;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Koh He Xiang
@@ -43,4 +44,6 @@ public interface FormService {
     List<String> getFormCategories();
 
     FormTemplateNamesListResponseDTO getFormsTemplateNamesByCategory(String formCategory);
+
+    Map<String, Integer> getFormTemplateNamesIdMap(List<String> formTemplateNames);
 }
